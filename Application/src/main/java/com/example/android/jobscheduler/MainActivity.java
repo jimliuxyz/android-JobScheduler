@@ -110,6 +110,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+        //seeu 啟動service 並傳一個handler讓service與activity通信
         // Start service and provide it a way to communicate with this class.
         Intent startServiceIntent = new Intent(this, MyJobService.class);
         Messenger messengerIncoming = new Messenger(mHandler);
@@ -121,6 +122,7 @@ public class MainActivity extends Activity {
      * Executed when user clicks on SCHEDULE JOB.
      */
     public void scheduleJob(View v) {
+        //seeu 使用builder建立JobInfo
         JobInfo.Builder builder = new JobInfo.Builder(mJobId++, mServiceComponent);
 
         String delay = mDelayEditText.getText().toString();
@@ -153,6 +155,7 @@ public class MainActivity extends Activity {
 
         // Schedule job
         Log.d(TAG, "Scheduling job");
+        //seeu 透過JobScheduler排程JobInfo
         JobScheduler tm = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         tm.schedule(builder.build());
     }
@@ -175,6 +178,7 @@ public class MainActivity extends Activity {
         if (allPendingJobs.size() > 0) {
             // Finish the last one
             int jobId = allPendingJobs.get(0).getId();
+            //seeu 用id取消job
             jobScheduler.cancel(jobId);
             Toast.makeText(
                     MainActivity.this, String.format(getString(R.string.cancelled_job), jobId),

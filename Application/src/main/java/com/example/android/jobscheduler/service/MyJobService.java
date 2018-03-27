@@ -73,14 +73,17 @@ public class MyJobService extends JobService {
 
         sendMessage(MSG_COLOR_START, params.getJobId());
 
+        //seeu 從JobParameters取回JobInfo設定的參數
         long duration = params.getExtras().getLong(WORK_DURATION_KEY);
 
+        //seeu 用Handler模擬一個任務的異步執行
         // Uses a handler to delay the execution of jobFinished().
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 sendMessage(MSG_COLOR_STOP, params.getJobId());
+                //seeu job執行完畢後呼叫jobFinished
                 jobFinished(params, false);
             }
         }, duration);
